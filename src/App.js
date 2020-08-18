@@ -1,24 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import marked from "marked";
+import { mockData } from "./mockData";
 
 function App() {
+  const [editor, setEditor] = useState(mockData);
+  const [text, setText] = useState("");
+
+  const handleChange = (e) => {
+    setText(marked(e.target.value));
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div className='header'>FCC Markdown Previewer</div>
+
+      <div className='box'>
+        <div className='container'>
+          <div className='label'>Editor</div>
+          <textarea
+            id='editor'
+            className='editor'
+            onChange={handleChange}
+            placeholder={mockData}
+          ></textarea>
+        </div>
+
+        <div className='container-preview'>
+          <div className='label'>Preview</div>
+          <div
+            id='preview'
+            className='preview'
+            dangerouslySetInnerHTML={{
+              __html: marked(`${text}`),
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 }
